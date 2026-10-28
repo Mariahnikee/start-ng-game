@@ -138,3 +138,31 @@
 .tournament-banner,.tags-picks a,.shelves a,#games a,.creators a,.how-actions a{text-decoration:none}
 .indie-banner>*{min-width:0}
 @media (max-width:640px){.indie-banner{padding:24px}}
+/* Today's tournament: the Star Hop hero hops across the five games, pressing each one it lands on */
+.tournament-banner{transition:transform .15s,box-shadow .15s}
+.tournament-banner:hover,.tournament-banner:focus-visible{transform:translate(-2px,-2px);box-shadow:10px 10px 0 var(--lime)}
+.tournament-banner .eyebrow{display:flex;align-items:center;gap:10px}
+.tournament-banner:not(.spot-banner) .eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px #d8fd7140;animation:t-live 1.6s ease-in-out infinite}
+.tournament-banner .btn{transition:transform .15s}
+.tournament-banner:hover .btn{transform:translateX(4px)}
+.tournament-banner-games{--a:clamp(60px,9vw,96px);position:relative;padding-top:28px}
+.tournament-banner-games .art{transition:rotate .25s cubic-bezier(.3,1.6,.5,1),scale .25s;animation:t-press 5s infinite}
+.tournament-banner-games .art:nth-child(3){animation-delay:1s}
+.tournament-banner-games .art:nth-child(4){animation-delay:2s}
+.tournament-banner-games .art:nth-child(5){animation-delay:3s}
+.tournament-banner-games .art:nth-child(6){animation-delay:4s}
+.tournament-banner:hover .tournament-banner-games .art:nth-child(odd){rotate:-5deg;scale:1.04}
+.tournament-banner:hover .tournament-banner-games .art:nth-child(even){rotate:5deg;scale:1.04}
+.t-hopper{position:absolute;top:6px;left:calc(var(--a) / 2 - 11px);width:22px;height:22px;z-index:1;pointer-events:none;animation:t-walk 5s infinite}
+.t-hopper i{display:block;width:22px;height:20px;margin-top:2px;border-radius:6px;border:2px solid var(--ink);background:radial-gradient(circle at 35% 45%,var(--ink) 1.6px,transparent 2px),radial-gradient(circle at 68% 45%,var(--ink) 1.6px,transparent 2px),var(--lime);transform-origin:50% 100%;animation:t-hop 1s infinite}
+@keyframes t-walk{
+  0%,16%{left:calc(var(--a) / 2 - 11px)}
+  20%,36%{left:calc(var(--a) * 1.5 + 8px - 11px)}
+  40%,56%{left:calc(var(--a) * 2.5 + 16px - 11px)}
+  60%,76%{left:calc(var(--a) * 3.5 + 24px - 11px)}
+  80%,96%{left:calc(var(--a) * 4.5 + 32px - 11px)}
+  100%{left:calc(var(--a) / 2 - 11px)}}
+@keyframes t-hop{0%{transform:scale(1.15,.85)}10%,74%{transform:none}80%{transform:scale(.9,1.1) translateY(-2px)}90%{transform:translateY(-24px) rotate(-8deg)}100%{transform:scale(1.15,.85)}}
+@keyframes t-press{0%,15%{translate:0 3px;box-shadow:0 0 0 2px var(--lime),0 0 18px #d8fd71aa}20%,100%{translate:0 0;box-shadow:none}}
+@keyframes t-live{50%{box-shadow:0 0 0 7px #d8fd7100}}
+@media (max-width:760px){.tournament-banner-games{--a:52px;padding-top:26px}}
