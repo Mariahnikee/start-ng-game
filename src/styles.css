@@ -330,24 +330,3 @@ textarea:focus,input:focus{box-shadow:none;outline:2px solid var(--ink);outline-
 .hero .actions .btn{transition:transform .15s,box-shadow .15s}
 .hero .actions .btn:hover{transform:translateY(-2px);box-shadow:3px 3px 0 var(--lime);filter:none}
 @media (max-width:640px){.doodles .d1,.doodles .d2,.doodles .d4{display:none}.doodles .d3{top:3%;right:5%}}
-/* hero mini game "Star Hop" */
-.world{position:relative;max-width:880px;margin:36px auto 0;border:1.5px solid var(--ink);border-radius:24px;overflow:hidden;box-shadow:8px 8px 0 var(--lime);background:var(--card);text-align:center}
-.world canvas{display:block;width:100%;aspect-ratio:8/3;touch-action:none}
-.world-hud{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;margin:0;pointer-events:none}
-.world-hud span{font:700 .8rem var(--mono);background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 10px}
-.world-overlay{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:10px;padding:16px;background:color-mix(in srgb,var(--bg) 55%,transparent);backdrop-filter:blur(2px)}
-.world-overlay[hidden]{display:none}
-.world-overlay .eyebrow{margin:0;font-size:.72rem;letter-spacing:.2em}
-.world-msg{margin:0;font-size:clamp(1.2rem,3vw,1.8rem);font-weight:800;letter-spacing:-.03em}
-.world-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-.world-actions .btn{transition:transform .15s,box-shadow .15s}
-.world-actions .btn:hover{transform:translateY(-2px);box-shadow:3px 3px 0 var(--lime);filter:none}
-.world-keys{margin:0;font:.75rem var(--mono);color:var(--muted)}
-.world-pad{display:none;justify-content:space-between;gap:8px;padding:10px;border-top:1px solid var(--line);background:var(--bg)}
-.world-pad button{flex:1;min-height:52px;border-radius:12px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);font-size:1.3rem;font-weight:800;touch-action:none;user-select:none;-webkit-user-select:none;cursor:pointer}
-.world-pad button:active,.world-pad button.on{background:var(--lime);color:var(--on-lime)}
-.world-pad button[data-key=jump]{flex:1.4}
-@media (pointer:coarse),(max-width:640px){.world-pad{display:flex}.world-keys{display:none}}
-@media (max-width:640px){.world canvas{aspect-ratio:4/3}.world{margin-top:28px;box-shadow:4px 4px 0 var(--lime)}}
-.world [hidden]{display:none!important}
-@media (pointer:coarse),(max-width:640px){.world-overlay{bottom:73px}}
