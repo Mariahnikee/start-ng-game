@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Creator Copilot · unofficial start.ng prototype</title>
+    <meta name="description" content="Describe a browser game idea, get a plan, play a prototype, refine it and get it ready for start.ng. Unofficial demo with sample responses." />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#f6f5ee" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script>
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    </script>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#copilot">Skip to the copilot</a>
+    <header class="container nav">
+      <a class="logo" href="#top" aria-label="start.ng Game Creator Copilot (unofficial prototype), top of page">
+        <span class="logo-mark" aria-hidden="true">▶</span><b>start.ng</b>
+      </a>
+      <nav aria-label="Pages">
+        <a href="https://start.ng/games" target="_blank" rel="noopener">Games</a>
+        <a href="https://start.ng/tournament" target="_blank" rel="noopener">Tournament</a>
+        <a href="https://start.ng/creators" target="_blank" rel="noopener">Creators</a>
+        <a href="https://start.ng/docs" target="_blank" rel="noopener">Docs</a>
+      </nav>
+      <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch to dark theme">◐</button>
+      <a class="btn nav-signin" href="https://start.ng" target="_blank" rel="noopener">Sign in</a>
+    </header>
+
+    <main id="top">
+      <section class="container hero">
+        <div class="doodles" aria-hidden="true"><i class="d1"></i><i class="d2"></i><i class="d3">✦</i><i class="d4"></i></div>
+        <p class="eyebrow">Big imagination. Played everywhere.</p>
+        <h1>Good vibes.<br /><mark>Good games.</mark></h1>
+        <p class="lead">Games made by builders in the community.<br />Each one lives at its own address, like <code>bingo.start.ng</code>.<br />Pick one and play right in your browser.</p>
+        <div class="actions">
+          <a class="btn" href="https://start.ng/games" target="_blank" rel="noopener">Play now</a>
+          <a class="btn ghost" href="https://start.ng" target="_blank" rel="noopener">Create free account</a>
+        </div>
+        <section class="world" id="world" aria-labelledby="world-title">
+          <h2 class="sr-only" id="world-title">Star Hop: a tiny game</h2>
+          <canvas id="world-canvas" role="img" aria-label="A little lime hero hopping between floating platforms to collect stars"></canvas>
+          <p class="world-hud" aria-live="off"><span id="world-score">★ 0 / 8</span><span id="world-time">0.0s</span></p>
+          <div class="world-overlay" id="world-overlay">
+            <p class="eyebrow">Star Hop · a tiny start.ng-style game</p>
+            <p class="world-msg" id="world-msg">Hop the platforms. Grab every star.</p>
+            <div class="world-actions">
+              <button class="btn" id="world-start" type="button">Play</button>
+              <a class="btn ghost" id="world-more" href="https://start.ng/games" target="_blank" rel="noopener" hidden>See all games →</a>
+            </div>
+            <p class="world-keys">← → or A D to move · Space or ↑ to jump</p>
+          </div>
+          <div class="world-pad" aria-label="Touch controls">
+            <button type="button" data-key="left" aria-label="Move left">◀</button>
+            <button type="button" data-key="right" aria-label="Move right">▶</button>
+            <button type="button" data-key="jump" aria-label="Jump">⤒</button>
+          </div>
+          <p class="sr-only" id="world-status" aria-live="polite"></p>
+        </section>
+        <div class="demo-banner" role="note">
+          <b class="eyebrow">Demo mode · unofficial prototype</b>
+          <span>The copilot gives built-in sample answers. No AI is running, nothing is sent anywhere, and nothing is published. Not made by start.ng.</span>
+        </div>
+      </section>
+
+      <section id="copilot" class="container copilot" aria-labelledby="copilot-title">
+        <div class="copilot-head">
+          <p class="eyebrow">Game Creator Copilot · demo mode</p>
+          <h2 id="copilot-title">One idea. Four steps.<br />Your game.</h2>
+          <p>Describe it, check the plan, play it, then get it ready for start.ng.</p>
+        </div>
+        <ol class="stepper" id="stepper" aria-label="Progress"></ol>
+
+        <div class="split">
+          <section class="panel chat" aria-labelledby="chat-title">
+            <div class="panel-head">
+              <h3 id="chat-title">Talk to the copilot</h3>
+              <button class="link-btn" id="start-over" type="button" hidden>Start over</button>
+            </div>
+            <div class="log" id="log" role="log" aria-live="polite" aria-relevant="additions"></div>
+            <form class="composer" id="composer" novalidate>
+              <label for="prompt" id="prompt-label">Describe your game idea</label>
+              <p class="hint" id="prompt-hint"></p>
+              <div class="chips" id="chips" aria-label="Suggestions"></div>
+              <div class="composer-row">
+                <textarea id="prompt" rows="3" aria-describedby="prompt-hint prompt-error prompt-count"></textarea>
+                <button class="btn" id="send" type="submit">Make a plan</button>
+              </div>
+              <div class="composer-meta">
+                <p class="field-error" id="prompt-error" role="alert"></p>
+                <span class="count" id="prompt-count"></span>
+              </div>
+            </form>
+          </section>
+
+          <section class="panel workspace" id="workspace" aria-labelledby="ws-title">
+            <div class="panel-head">
+              <h3 id="ws-title">Workspace</h3>
+              <span class="version" id="version-badge"></span>
+            </div>
+            <div class="tabs" role="tablist" aria-label="Workspace views" id="tabs"></div>
+            <div class="tab-panel" id="tab-panel" role="tabpanel" tabindex="-1"></div>
+          </section>
+        </div>
+      </section>
+
+      <section id="how" class="container how" aria-labelledby="how-title">
+        <h2 id="how-title">Got a game? Put it on start.ng</h2>
+        <ol>
+          <li><b>Build it</b><span>Any static browser game: HTML, JavaScript, three.js, Phaser. Players bring their start.ng character, scores and friends.</span></li>
+          <li><b>Push it to GitHub</b><span>A public repo with a ready-to-play <code>index.html</code> at the top or in <code>dist/</code>, plus a <code>cover.png</code> for its card.</span></li>
+          <li><b>Publish it</b><span>One API call with your repo link, no key needed. Or hand your AI <code>start.ng/docs</code> and let it do the lot.</span></li>
+          <li><b>Approve it once</b><span>Open the link you get back and it's live at <code>yourgame.start.ng</code>, with its own leaderboard if you want one. After that, every push updates it.</span></li>
+        </ol>
+        <div class="how-actions">
+          <a class="btn" href="https://start.ng/docs" target="_blank" rel="noopener">Read the docs</a>
+          <a class="btn ghost" href="https://start.ng/docs.md" target="_blank" rel="noopener">Docs for your AI (.md)</a>
+        </div>
+      </section>
+
+      <section id="about" class="container about how" aria-labelledby="about-title">
+        <h2 id="about-title">About start.ng</h2>
+        <p class="about-text">start.ng is Nigeria's home for browser games, built by the HNG community. Every game is free to play in your browser with no download, and many are made in Naija: danfo rush hour, jollof catching, Lagos markets and more.</p>
+        <p class="about-text">We're also building a home for web games from across Africa. If you make games anywhere on the continent, you can put yours on start.ng for free.</p>
+        <p class="about-text"><a href="https://start.ng/about" target="_blank" rel="noopener">More about start.ng →</a></p>
+        <h3>Questions</h3>
+        <div class="faq">
+          <details><summary>What is start.ng?</summary><p>A home for free browser games made by the HNG community. Each game has its own address, like yourgame.start.ng, and you play it right in your browser.</p></details>
+          <details><summary>Is it free?</summary><p>Yes. Every game on start.ng is free to play in your browser, with nothing to download.</p></details>
+          <details><summary>Are there Nigerian or African web games?</summary><p>Yes. Many games here are Naija-themed, from danfo rush hour to jollof and Lagos markets, and we welcome games from across Africa.</p></details>
+          <details><summary>Do I need an account to play?</summary><p>No. Sign in to get your start.ng character, keep your scores on the leaderboards and join the daily tournament.</p></details>
+          <details><summary>What is the daily tournament?</summary><p>Every day a few start.ng games are picked for 24 hours, and the best player wins. Points count towards the overall leaderboard.</p></details>
+          <details><summary>How do I put my game on start.ng?</summary><p>Push your browser game to a public GitHub repo, publish it with one API call and approve it once. It goes live at yourgame.start.ng. The docs have every step.</p></details>
+        </div>
+      </section>
+    </main>
+
+    <footer class="container site-footer">
+      <div class="site-footer-grid">
+        <div class="site-footer-brand">
+          <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true">▶</span><b>start.ng</b></a>
+          <p>Nigeria's home for browser games, made by the community and by creators across Africa.</p>
+        </div>
+        <nav aria-label="Play">
+          <h2>Play</h2>
+          <ul>
+            <li><a href="https://start.ng/games" target="_blank" rel="noopener">All games</a></li>
+            <li><a href="https://start.ng/tournament" target="_blank" rel="noopener">Daily tournament</a></li>
+            <li><a href="https://start.ng/leaderboard" target="_blank" rel="noopener">Leaderboard</a></li>
+            <li><a href="https://start.ng/categories" target="_blank" rel="noopener">Categories</a></li>
+            <li><a href="https://start.ng/hangout" target="_blank" rel="noopener">The Hangout</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Make games">
+          <h2>Make games</h2>
+          <ul>
+            <li><a href="https://start.ng/creators" target="_blank" rel="noopener">Independent creators</a></li>
+            <li><a href="https://start.ng/docs" target="_blank" rel="noopener">Build a game</a></li>
+            <li><a href="https://start.ng/docs.md" target="_blank" rel="noopener">Docs for your AI (.md)</a></li>
+            <li><a href="#copilot">Game Creator Copilot</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="About">
+          <h2>About</h2>
+          <ul><li><a href="https://start.ng/about" target="_blank" rel="noopener">About start.ng</a></li></ul>
+        </nav>
+      </div>
+      <p class="site-footer-base"><span>Unofficial Game Creator Copilot prototype. Not made or endorsed by start.ng or HNG.</span><span>Games from Nigeria and across Africa.</span></p>
+      <label class="demo-toggle"><input type="checkbox" id="simulate-error" /> Testing: make the copilot's next answer fail</label>
+    </footer>
+
+    <dialog class="dialog" id="dialog" aria-labelledby="dialog-title" aria-describedby="dialog-body">
+      <form method="dialog" id="dialog-form">
+        <h2 id="dialog-title"></h2>
+        <div id="dialog-body"></div>
+        <label class="check" id="dialog-check-wrap" hidden><input type="checkbox" id="dialog-check" /> <span id="dialog-check-label"></span></label>
+        <div class="dialog-actions">
+          <button class="btn ghost" value="cancel" id="dialog-cancel" type="submit">Cancel</button>
+          <button class="btn" value="confirm" id="dialog-confirm" type="submit"></button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="sr-only" id="sr-status" aria-live="polite"></div>
+    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/hero-game.js"></script>
+  </body>
+</html>
