@@ -154,7 +154,7 @@
 .tournament-banner:hover .tournament-banner-games .art:nth-child(odd){rotate:-5deg;scale:1.04}
 .tournament-banner:hover .tournament-banner-games .art:nth-child(even){rotate:5deg;scale:1.04}
 .t-hopper{position:absolute;top:6px;left:calc(var(--a) / 2 - 11px);width:22px;height:22px;z-index:1;pointer-events:none;animation:t-walk 5s infinite}
-.t-hopper i{display:block;width:22px;height:20px;margin-top:2px;border-radius:6px;border:2px solid var(--ink);background:radial-gradient(circle at 35% 45%,var(--ink) 1.6px,transparent 2px),radial-gradient(circle at 68% 45%,var(--ink) 1.6px,transparent 2px),var(--lime);transform-origin:50% 100%;animation:t-hop 1s infinite}
+.t-hopper i{display:block;width:22px;height:20px;margin-top:2px;border-radius:6px;border:2px solid var(--ink);background:radial-gradient(circle at calc(35% + var(--ex,0px)) calc(45% + var(--ey,0px)),var(--ink) 1.6px,transparent 2px),radial-gradient(circle at calc(68% + var(--ex,0px)) calc(45% + var(--ey,0px)),var(--ink) 1.6px,transparent 2px),var(--lime);transform-origin:50% 100%;animation:t-hop 1s infinite}
 @keyframes t-walk{
   0%,16%{left:calc(var(--a) / 2 - 11px)}
   20%,36%{left:calc(var(--a) * 1.5 + 8px - 11px)}
@@ -166,22 +166,54 @@
 @keyframes t-press{0%,15%{translate:0 3px;box-shadow:0 0 0 2px var(--lime),0 0 18px #d8fd71aa}20%,100%{translate:0 0;box-shadow:none}}
 @keyframes t-live{50%{box-shadow:0 0 0 7px #d8fd7100}}
 @media (max-width:760px){.tournament-banner-games{--a:52px;padding-top:26px}}
-/* Side decorations: platforms, stars and the little lime hopper, living in the page gutters */
-body{position:relative}
-.side-deco{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;display:none}
-.deco-defs{position:absolute}
-.deco-col{position:absolute;top:0;bottom:0;width:130px}
-.deco-col.left{left:max(6px,calc(50% - 480px - 150px))}
-.deco-col.right{right:max(6px,calc(50% - 480px - 150px))}
-.deco{position:absolute;top:var(--y);left:0;width:130px;height:90px}
-.deco-col.right .deco{left:auto;right:0}
-.deco-pf{position:absolute;bottom:10px;left:10px;height:14px;border-radius:6px;background:var(--card);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--lime);animation:deco-sway 7s ease-in-out infinite;animation-delay:var(--d)}
-.deco-star{position:absolute;top:8px;left:var(--sx);width:26px;height:26px;fill:var(--lime);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round;pointer-events:auto;cursor:default;animation:deco-float 4.5s ease-in-out infinite;animation-delay:var(--d);transition:scale .25s cubic-bezier(.3,1.6,.5,1)}
-.deco-star.small{top:46px;left:calc(var(--sx) + 40px);width:16px;height:16px;animation-duration:5.5s}
-.deco-star:hover{scale:1.5;rotate:72deg}
-.deco-hop{position:absolute;bottom:26px;left:28px;width:22px;height:22px;animation:deco-sway 7s ease-in-out infinite;animation-delay:var(--d)}
-.deco-hop i{display:block;width:22px;height:20px;border-radius:6px;border:2px solid var(--ink);background:radial-gradient(circle at 35% 45%,var(--ink) 1.6px,transparent 2px),radial-gradient(circle at 68% 45%,var(--ink) 1.6px,transparent 2px),var(--lime);transform-origin:50% 100%;animation:t-hop 1.6s infinite;animation-delay:var(--d)}
-main>.container,.site-footer{position:relative;z-index:1}
-@keyframes deco-float{0%,100%{translate:0 0;rotate:-8deg}50%{translate:0 -10px;rotate:10deg}}
-@keyframes deco-sway{0%,100%{translate:-5px 0}50%{translate:5px 0}}
-@media (min-width:1200px){.side-deco{display:block}}
+/* tournament polish: the cover you point at pops forward */
+.tournament-banner-games .art:hover{scale:1.14!important;rotate:0deg!important;z-index:2;box-shadow:3px 3px 0 var(--lime)}
+/* 2. Category tiles and game cards tilt toward the cursor like holographic cartridges */
+.tag-tile::after,.grid .game::after,.shelf .game::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;background:radial-gradient(circle at var(--gx,50%) var(--gy,30%),#d8fd7159,transparent 55%);transition:opacity .2s}
+.tilting{transform:perspective(700px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-3px)!important;transition:transform .08s linear!important;z-index:2}
+.tilting::after,.tag-tile:focus-visible::after,.grid .game:focus-within::after,.shelf .game:focus-within::after{opacity:1}
+/* 3. Today's tournament: point at a game and the hopper jumps onto it */
+.t-hopper{transition:left .35s cubic-bezier(.3,1.4,.5,1)}
+.tournament-banner-games:has(.art:hover) .t-hopper{animation:none}
+.tournament-banner-games:has(.art:hover) .t-hopper i{animation:t-hop .55s infinite}
+.tournament-banner-games:has(.art:hover) .art{animation:none}
+.tournament-banner-games:has(.art:nth-child(2):hover) .t-hopper{left:calc(var(--a) * .5 - 11px)}
+.tournament-banner-games:has(.art:nth-child(3):hover) .t-hopper{left:calc(var(--a) * 1.5 + 8px - 11px)}
+.tournament-banner-games:has(.art:nth-child(4):hover) .t-hopper{left:calc(var(--a) * 2.5 + 16px - 11px)}
+.tournament-banner-games:has(.art:nth-child(5):hover) .t-hopper{left:calc(var(--a) * 3.5 + 24px - 11px)}
+.tournament-banner-games:has(.art:nth-child(6):hover) .t-hopper{left:calc(var(--a) * 4.5 + 32px - 11px)}
+/* Headline blocks: letters the cursor touches bonk up like game blocks and pop a coin */
+.block-ltr{display:inline-block;transform-origin:50% 100%}
+.block-ltr.bonk{animation:block-bonk .45s cubic-bezier(.3,1.6,.5,1)}
+.block-coin{position:absolute;z-index:2;width:16px;height:16px;border-radius:50%;background:var(--lime);border:2px solid var(--ink);box-shadow:inset -3px 0 0 #b8dd4f;pointer-events:none;animation:block-coin .7s cubic-bezier(.2,.8,.4,1) forwards}
+@keyframes block-bonk{0%{transform:none}35%{transform:translateY(-.16em) scale(1.06,.94)}70%{transform:translateY(.02em) scale(.97,1.04)}100%{transform:none}}
+@keyframes block-coin{0%{opacity:0;translate:0 0;scale:.5 1}20%{opacity:1}60%{scale:.15 1}80%{scale:1 1}100%{opacity:0;translate:0 -24px;scale:.4 1}}
+.block-ltr.stomp{animation:block-stomp .4s cubic-bezier(.3,1.6,.5,1)}
+@keyframes block-stomp{0%{transform:none}35%{transform:translateY(.05em) scale(1.08,.9)}100%{transform:none}}
+/* Suya Knight: walks on "Good vibes.", chases the cursor and slashes bugs with a suya skewer */
+.hero-knight{position:absolute;left:0;top:0;z-index:3;width:24px;height:26px;cursor:pointer;will-change:transform}
+.knight-wrap{display:block;width:24px;height:26px;transform-origin:50% 100%;animation:knight-breathe 1.6s ease-in-out infinite}
+.knight-wrap svg{display:block;width:24px;height:26px;overflow:visible;transform:scaleX(var(--face,1));transition:transform .12s}
+.k-eyes{translate:var(--ex,0px) var(--ey,0px)}
+.k-arm{transform-box:view-box;transform-origin:21.5px 19px;animation:knight-guard 1.6s ease-in-out infinite}
+.hero-knight.running .k-leg.l{transform-box:fill-box;transform-origin:50% 0;animation:knight-step .22s ease-in-out infinite alternate}
+.hero-knight.running .k-leg.r{transform-box:fill-box;transform-origin:50% 0;animation:knight-step .22s ease-in-out infinite alternate-reverse}
+.hero-knight.slash .k-arm{animation:knight-slash .35s cubic-bezier(.3,1.4,.5,1)}
+.hero-knight.leap .knight-wrap{animation:knight-leap .35s ease-out}
+.hero-knight.land .knight-wrap{animation:knight-land .3s cubic-bezier(.3,1.6,.5,1)}
+.hero-knight.flip .knight-wrap{animation:knight-flip .6s cubic-bezier(.3,1.2,.5,1)}
+.hero-bug{position:absolute;left:0;top:0;z-index:2;width:30px;height:22px;cursor:crosshair}
+.hero-bug::before{content:"";position:absolute;left:6px;right:6px;top:9px;bottom:1px;border-radius:50% 50% 40% 40%;background:radial-gradient(circle at 32% 38%,#d8fd71 1.5px,transparent 2px),radial-gradient(circle at 68% 38%,#d8fd71 1.5px,transparent 2px),var(--ink);box-shadow:-3px 4px 0 -2px var(--ink),3px 4px 0 -2px var(--ink);animation:bug-scuttle .16s steps(2) infinite}
+.hero-bug::after{content:"";position:absolute;left:10px;right:10px;top:4px;height:6px;border-left:1.5px solid var(--ink);border-right:1.5px solid var(--ink);transform:perspective(20px) rotateX(-30deg)}
+.hero-bug.pop-in{animation:bug-in .35s cubic-bezier(.3,1.6,.5,1)}
+.hero-bug.squish{pointer-events:none;animation:bug-squish .3s ease-out forwards}
+@keyframes knight-breathe{50%{transform:scale(1.03,.97)}}
+@keyframes knight-guard{50%{rotate:-6deg}}
+@keyframes knight-step{from{rotate:-28deg}to{rotate:28deg}}
+@keyframes knight-slash{0%{rotate:0deg}30%{rotate:-75deg}60%{rotate:95deg}100%{rotate:0deg}}
+@keyframes knight-leap{0%{transform:scale(1.2,.8)}40%{transform:scale(.88,1.15)}100%{transform:none}}
+@keyframes knight-land{0%{transform:scale(1.3,.72)}100%{transform:none}}
+@keyframes knight-flip{0%{transform:scale(1.2,.8)}60%{transform:rotate(-360deg) scale(1.1)}100%{transform:rotate(-360deg)}}
+@keyframes bug-scuttle{50%{translate:0 -1px}}
+@keyframes bug-in{from{scale:.2;opacity:0;translate:0 10px}}
+@keyframes bug-squish{40%{scale:1.6 .3;opacity:1}100%{scale:1.8 .1;opacity:0}}
