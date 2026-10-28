@@ -317,16 +317,7 @@ textarea:focus,input:focus{box-shadow:none;outline:2px solid var(--ink);outline-
 @media (max-width:640px){.nav-signin{display:none}}
 /* homepage hero: small whimsical touches in start.ng's own lime + ink */
 .hero{position:relative}
-.hero>*:not(.doodles){position:relative;z-index:1}
-.doodles{position:absolute;inset:0;pointer-events:none;z-index:0}
-.doodles i{position:absolute;display:block;font-style:normal;animation:bob 6s ease-in-out infinite}
-.d1{left:6%;top:22%;width:22px;height:22px;border-radius:50%;background:var(--lime);border:2px solid var(--ink)}
-.d2{right:8%;top:16%;width:26px;height:26px;border-radius:7px;border:2px solid var(--ink);--r:14deg;transform:rotate(var(--r));animation-delay:-2s}
-.d3{right:14%;top:58%;font-size:1.4rem;color:var(--ink);animation-delay:-4s}
-.d4{left:12%;top:66%;width:14px;height:14px;border-radius:50%;box-shadow:0 0 0 2px var(--ink),3px 3px 0 2px var(--lime);animation-delay:-1s}
-@keyframes bob{0%,100%{translate:0 0;rotate:var(--r,0deg)}50%{translate:0 -8px;rotate:calc(var(--r,0deg) + 8deg)}}
 .hero mark{background-repeat:no-repeat;animation:swipe .9s .2s cubic-bezier(.2,.8,.2,1) both}
 @keyframes swipe{from{background-size:0 100%}to{background-size:100% 100%}}
 .hero .actions .btn{transition:transform .15s,box-shadow .15s}
 .hero .actions .btn:hover{transform:translateY(-2px);box-shadow:3px 3px 0 var(--lime);filter:none}
-@media (max-width:640px){.doodles .d1,.doodles .d2,.doodles .d4{display:none}.doodles .d3{top:3%;right:5%}}
