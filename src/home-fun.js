@@ -1,6 +1,6 @@
 // Homepage micro-interactions, all driven by the visitor's cursor (or finger):
 // 1. the hero headline's letters bump like game blocks and pop coins,
-// 2. the Suya Knight lives on top of the headline: it chases the cursor and slashes bugs that crawl out of the letters,
+// 2. the Suya Knight lives on top of the headline: it chases the cursor and slashes bugs that crawl out of the letters with a little sword,
 // 3. the tournament hopper's eyes follow the cursor,
 // 4. category tiles and game cards tilt like holographic cartridges.
 
@@ -90,7 +90,7 @@ if (h1 && !reduce.matches) {
   });
 }
 
-// 2. The Suya Knight: walks on the tops of "Good vibes." and fights the bugs that crawl out of the letters.
+// 2. The knight: walks on the tops of "Good vibes." and fights the bugs that crawl out of the letters.
 const KNIGHT = `<span class="knight-wrap"><svg viewBox="0 0 30 32" aria-hidden="true">
   <g class="k-body">
     <path d="M13 4.5c1.5-3.5 6.5-4 8-.5-2.4-.2-4.6.8-5.6 2.6z" fill="#d8fd71" stroke="#292a23" stroke-width="1.2" stroke-linejoin="round"/>
@@ -104,11 +104,13 @@ const KNIGHT = `<span class="knight-wrap"><svg viewBox="0 0 30 32" aria-hidden="
     <path d="M5.5 15.5h5.5v5.2c0 2.2-2.75 3.8-2.75 3.8s-2.75-1.6-2.75-3.8z" fill="#fffefa" stroke="#292a23" stroke-width="1.2" stroke-linejoin="round"/>
   </g>
   <g class="k-arm">
-    <line x1="21.5" y1="19" x2="29" y2="3" stroke="#7a5230" stroke-width="1.4" stroke-linecap="round"/>
-    <circle cx="24.1" cy="13.4" r="2" fill="#a0522d" stroke="#292a23" stroke-width=".8"/>
-    <circle cx="25.9" cy="9.6" r="2" fill="#b5652a" stroke="#292a23" stroke-width=".8"/>
-    <circle cx="27.6" cy="6" r="1.8" fill="#a0522d" stroke="#292a23" stroke-width=".8"/>
-    <circle cx="25.4" cy="12.6" r=".55" fill="#e1251b"/><circle cx="26.7" cy="8.9" r=".55" fill="#e1251b"/>
+    <g transform="rotate(22 21.5 19)">
+      <path d="M20.5 16.2V5.2l1-3 1 3v11z" fill="#e8ecef" stroke="#292a23" stroke-width=".9" stroke-linejoin="round"/>
+      <path d="M21.5 5v10.6" stroke="#fffefa" stroke-width=".6"/>
+      <rect x="18.2" y="15.6" width="6.6" height="1.9" rx=".9" fill="#d8fd71" stroke="#292a23" stroke-width=".9"/>
+      <rect x="20.8" y="17.4" width="1.4" height="3.4" fill="#7a5230"/>
+      <circle cx="21.5" cy="21.4" r="1.1" fill="#d8fd71" stroke="#292a23" stroke-width=".8"/>
+    </g>
     <rect x="19.8" y="17.6" width="3.4" height="3.4" rx="1.2" fill="#8d5524" stroke="#292a23" stroke-width=".8"/>
   </g>
 </svg></span>`;
@@ -353,7 +355,7 @@ if (tHopper) {
   addEventListener('pointermove', (e) => {
     if (e.timeStamp - last < 32) return;
     last = e.timeStamp;
-    lookAt(tHopper, e.clientX, e.clientY, 2.2, 2);
+    lookAt(tHopper, e.clientX, e.clientY, 3.3, 3);
   });
 }
 
