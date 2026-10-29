@@ -121,11 +121,12 @@ if (hero && letters.length) {
   knight.setAttribute('aria-hidden', 'true');
   knight.innerHTML = KNIGHT;
   hero.append(knight);
+  hero.classList.add('has-knight'); // makes room above the headline for it to stand
 
-  const W = 24;
-  const H = 26;
+  const W = 48;
+  const H = 52;
   const GRAV = 1700;
-  const REACH = 26;
+  const REACH = 40;
   const s = { x: 0, y: -80, vy: 0, onGround: false, face: 1, target: null, under: null, idle: 0, cooldown: 0, slash: 0, intro: true, hunt: null, spawn: 2.5 };
   const bugs = [];
 
@@ -163,7 +164,7 @@ if (hero && letters.length) {
 
   // a bug pops out of a letter top and starts scurrying
   function spawnBug(t) {
-    const choices = t.filter((p) => Math.abs((p.left + p.right) / 2 - s.x) > 70);
+    const choices = t.filter((p) => Math.abs((p.left + p.right) / 2 - s.x) > 90);
     const p = choices[Math.floor(Math.random() * choices.length)];
     if (!p) return;
     const el = document.createElement('span');
@@ -259,7 +260,7 @@ if (hero && letters.length) {
       s.target = Math.max(minX, Math.min(maxX, pointer.x));
       s.idle = 0;
       // the cursor hovers just above: try to catch it
-      if (s.onGround && s.cooldown <= 0 && pointer.y < s.y - H && pointer.y > s.y - 140 && Math.abs(pointer.x - s.x) < 40) {
+      if (s.onGround && s.cooldown <= 0 && pointer.y < s.y - H && pointer.y > s.y - 170 && Math.abs(pointer.x - s.x) < 50) {
         jump(-560);
         s.cooldown = 0.6;
       }
@@ -283,7 +284,7 @@ if (hero && letters.length) {
 
     // any bug within reach of the skewer gets slashed
     if (s.slash <= 0) {
-      const prey = live.find((b) => Math.abs(b.x - s.x) < REACH && Math.abs(floorAt(t, b.x) - s.y) < 34);
+      const prey = live.find((b) => Math.abs(b.x - s.x) < REACH && Math.abs(floorAt(t, b.x) - s.y) < 60);
       if (prey) {
         s.face = Math.sign(prey.x - s.x) || s.face;
         slay(prey);
